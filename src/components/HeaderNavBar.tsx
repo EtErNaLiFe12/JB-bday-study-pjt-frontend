@@ -1,7 +1,10 @@
-import { Box, Icon } from "@mui/material";
+import { Box, Icon, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import { styled } from '@mui/material/styles';
 import LoginIcon from '@mui/icons-material/Login';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import ResponsiveDrawer from "./Drawer";
 
 const LinkStyle = styled(Link)(() => ({
 	textDecoration: 'none',
@@ -19,9 +22,22 @@ const LinkStyle = styled(Link)(() => ({
 }))
 
 const HeaderNavBar = () => {
+
+	const theme = useTheme();
+  const breakpoint = useMediaQuery(theme.breakpoints.down('sm'));
+	// xs, extra-small: 0px
+	// sm, small: 600px
+	// md, medium: 900px
+	// lg, large: 1200px
+	// xl, extra-large: 1536px
+
     return (
 			<>
-				<Box 
+			{breakpoint ? 
+			(
+				<ResponsiveDrawer/>
+			) : (
+					<Box 
 					sx={{ 
 						position: 'relative',
 						width: '100%',
@@ -40,18 +56,19 @@ const HeaderNavBar = () => {
 					
 					<Box sx={{ display: 'flex' }}>
 						<Box sx={{ position: 'absolute', right: 40, lineHeight: '50px'}}>
-							<LinkStyle to="/Error404">Errorpage</LinkStyle>
-							<LinkStyle to="/Post">Post</LinkStyle>
-							<LinkStyle to="/PostList">MyPost</LinkStyle>
-							<LinkStyle to="/MyPage">MyPage</LinkStyle>
+							{/* <LinkStyle to="/error404">Error-page test</LinkStyle> */}
+							<LinkStyle to="/post">Post</LinkStyle>
+							<LinkStyle to="/mypost">MyPost</LinkStyle>
+							<LinkStyle to="/mypage">MyPage</LinkStyle>
 						</Box>
 						<Box sx={{ position:'absolute', top: 16	, right: 0 }}>
-								<LinkStyle to="/Login">
+								<LinkStyle to="/login">
 										<Icon sx={{ width: 20, height: 20 }} component={LoginIcon} />
 								</LinkStyle>
 						</Box>
 					</Box>
 				</Box> 
+				)}
 			</>
     )
 }
