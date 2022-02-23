@@ -16,7 +16,7 @@ const PostIt = (props:propsType) => {
       <>
         <Container 
           sx={{ 
-            width: '100%',
+            width: '90%',
             height: 430, 
             overflowY:'scroll', 
             overflowX: 'hidden', 
@@ -37,6 +37,7 @@ const PostIt = (props:propsType) => {
                           name : md.name, 
                           title: md.title, 
                           desc: md.description,
+                          key: idx + 1,
                         }});
                     // navigate('/postdetail', {state: { data: MOCKDATA }});
                   }}
@@ -70,32 +71,38 @@ const PostIt = (props:propsType) => {
             // grid
               <Container maxWidth="md" sx={{ width: '100%', display: 'flex', flexWrap: 'wrap', justifyContent: breakPoint ? 'center' : 'left'}}>
                   {MOCKDATA.map((md, idx) => (
-                    <Button
-                      key={idx}
-                      onClick={() => {
-                        navigate('/postdetail', 
-                          {state: 
-                            { 
-                              name : md.name, 
-                              title: md.title, 
-                              desc: md.description,
-                            }});
-                        // navigate('/postdetail', {state: { data: MOCKDATA }});
-                      }}
-                      sx={{
-                        width: 200,
-                        height: 170,
-                        bgcolor:'rgba(255, 234, 167,1.0)',
-                        mt: 1,
-                        ml: breakPoint2 ? 0 : '10px',
-                      }}>
-                      <Box>
-                        <Typography align="center" variant="button" sx={{color: '#555', fontSize: 18, fontWeight: '700'}}>#{idx+1}-{md.title}</Typography>
-                        {/* <Typography align="center" sx={{ width: '100%', height: 140}}>{md.description}</Typography> */}
-                        <Typography  sx={{ mt: 12, fontSize: 14, color: '#555' }}>Made by {md.name}</Typography>
-                      </Box>
-                    </Button>
+                    <>
+                      <Button
+                        key={idx}
+                        onClick={() => {
+                          navigate('/postdetail',
+                            {state:
+                              {
+                                name : md.name,
+                                title: md.title,
+                                desc: md.description,
+                                key: idx + 1,
+                              }});
+                          // navigate('/postdetail', {state: { data: MOCKDATA }});
+                        }}
+                        sx={{
+                          width: 200,
+                          height: 170,
+                          bgcolor:'rgba(255, 234, 167,1.0)',
+                          // bgcolor:'#ffcccc',
+                          mt: 1,
+                          ml: breakPoint2 ? 0 : '10px',
+                        }}>
+                        <Box>
+                          <Typography align="center" variant="button" sx={{color: '#555', fontSize: 18, fontWeight: '700'}}>#{idx+1}-{md.title}</Typography>
+                          {/* <Typography align="center" sx={{ width: '100%', height: 140}}>{md.description}</Typography> */}
+                          {/* <Typography  sx={{ mt: 12, fontSize: 14, color: '#555' }}>Made by {md.name}</Typography> */}
+                        </Box>
+                      </Button>
+                      
+                    </>
                   ))}
+                 
               </Container>
           )}
           
