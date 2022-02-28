@@ -28,9 +28,10 @@ const Error404 = () => {
             <Button 
               sx={{ 
                 mt: 2, 
-                bgcolor: 'text.primary'
+                bgcolor: '#fb5849'
               }} 
-              to="/" size="medium" 
+              to="/" 
+              size="medium" 
               variant="contained" 
               component={RouterLink}
             >
