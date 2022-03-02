@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 interface propsType {
   viewChg: boolean;
 }
+
 interface postDataType {
 	id: string;
 	title: string;
@@ -15,8 +16,27 @@ interface postDataType {
   mod_dt: Date;
   mng_no: number;
   username: string;
-  nickname: string;
 }
+
+interface singleDataType {
+  id: string;
+  username: string;
+  email: string;
+  reg_dt: string;
+  posts: [
+    {
+      id: string;
+      title: string;
+      content: string;
+      crt_dt: Date;
+      mod_dt: Date;
+      mng_no: number;
+      postId: string;
+      nickname: string;
+    } 
+  ];
+}
+
 interface userDataType {
 	id: string;
 	username: string;
@@ -24,10 +44,11 @@ interface userDataType {
 	reg_dt: string;
 }
 
-const PostIt = (props:propsType) => {
+const SinglePostIt = (props:propsType) => {
 
   const { viewChg } = props;
   const [postData, setPostData] = useState<postDataType[]>([]);
+  const [singleData, setSingleData] = useState<singleDataType>();
   const breakPoint = useMediaQuery('(max-width:679px)');
   const breakPoint2 = useMediaQuery('(max-width:550px)');
   const token = localStorage.getItem('token');
@@ -45,11 +66,26 @@ const PostIt = (props:propsType) => {
     }
   }
 
-  console.log('testttt',postData?.map((dt) => dt.nickname));
+  const singleUser = async () => {
+    try {
+      const sUser = await bdayApi.get(`/post/posts/${Number(postId)}`, 
+        {
+          headers: { Authorization: 'Bearer ' + token }
+        });
+      setSingleData(sUser.data);
+      // console.log('single-user', singleData);
+    } catch(e) {
+      console.log('error message', e);
+    }
+  }
+
   useEffect(() => {
     postList();
+    singleUser();
+	}, []);
 
-	}, [])
+  const singlePosts = singleData?.posts;
+  console.log(singleData?.posts);
   return (
       <>
         <Container 
@@ -65,15 +101,15 @@ const PostIt = (props:propsType) => {
             // list
             <>
              <Container maxWidth="md" >
-              {postData?.map((sp, idx) => (
+              {singlePosts?.map((sp, idx) => (
                 <>
                 <Button
                   key={sp.id}
                   onClick={() => {
-                    navigate('/allpostdetail', 
+                    navigate('/postdetail', 
                       {state: 
                         { 
-                          name : sp.nickname,
+                          nickname : sp.nickname,
                           mng_no: sp.mng_no,
                           title: sp.title, 
                           content: sp.content,
@@ -111,12 +147,12 @@ const PostIt = (props:propsType) => {
           ) : (
             // grid
               <Container maxWidth="md" sx={{ width: '100%', display: 'flex', flexWrap: 'wrap', justifyContent: breakPoint ? 'center' : 'left'}}>
-                  {postData?.map((sp, idx) => (
+                  {singlePosts?.map((sp, idx) => (
                     <>
                       <Button
                         key={idx}
                         onClick={() => {
-                          navigate('/allpostdetail',
+                          navigate('/postdetail',
                             {state:
                               {
                                 nickname : sp.nickname,
@@ -125,7 +161,6 @@ const PostIt = (props:propsType) => {
                                 content: sp.content,
                                 id: sp.id,
                               }});
-                          // navigate('/postdetail', {state: { data: MOCKDATA }});
                         }}
                         sx={{
                           width: 200,
@@ -153,5 +188,5 @@ const PostIt = (props:propsType) => {
       </>
   )
 }
-export default PostIt;
+export default SinglePostIt;
 

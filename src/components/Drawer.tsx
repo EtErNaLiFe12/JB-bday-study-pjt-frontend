@@ -9,8 +9,9 @@ import ListItemText from '@mui/material/ListItemText';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from 'src/context/provider/AuthProvider';
 
 const drawerWidth = 280;
 
@@ -22,26 +23,33 @@ export default function ResponsiveDrawer() {
     setMobileOpen(!mobileOpen);
   };
 
+  const { isAuth, logOut } = useContext(AuthContext);
+
   const listItem = [
     {
       text: 'Home',
-      onClick: () => { navigate('/home'); setMobileOpen(false) }
+      onClick: () => { navigate('/home'); setMobileOpen(false); }
     },
     {
-      text: 'Post',
-      onClick: () => { navigate('/post'); setMobileOpen(false) }
+      text: 'AllPost',
+      onClick: () => { navigate('/allpost'); setMobileOpen(false); }
     },
     {
       text: 'MyPost',
-      onClick: () => { navigate('/mypost'); setMobileOpen(false) }
+      onClick: () => { navigate('/mypost'); setMobileOpen(false); }
     },
     {
       text: 'MyPage',
-      onClick: () => { navigate('/mypage'); setMobileOpen(false) }
+      onClick: () => { navigate('/mypage'); setMobileOpen(false); }
     },
     {
-      text: 'Login',
-      onClick: () => { navigate('/login'); setMobileOpen(false) }
+      text: isAuth ? 'Logout':'Login',
+      onClick: () => {
+        {isAuth && logOut}; 
+        navigate(isAuth ? '/home' : '/login'); 
+        setMobileOpen(false); 
+        location.reload(); 
+      }
     },
   ]
 

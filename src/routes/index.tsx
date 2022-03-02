@@ -4,6 +4,8 @@ import { lazy, Suspense, ElementType } from 'react';
 //pages
 import LayOut from 'src/layout/LayOut';
 import LoadingPage from 'src/pages/LoadingPage';
+import AuthRoute from './AuthRoute';
+import AllPostDetail from 'src/pages/AllPostDetail';
 
 
 const Loading = (Component: ElementType) => (props: any) =>
@@ -20,13 +22,15 @@ const Router = () =>
       element: <LayOut />,
       children: [
         { element: <Navigate to="/home" replace />, index: true },
-        { path: '/home', element: <HomePage /> },
-        { path: '/login', element: <Login /> },
-        { path: '/postdetail', element: <PostDetail /> },
-        { path: '/edit', element: <EditPage /> },
-        { path: '/mypost', element: <MyPost /> },
-        { path: '/mypage', element: <MyPage /> },
-        { path: '/register', element: <Register /> },
+        { path: '/home', element: <HomePage/> },
+        { path: '/login', element: <Login/> },
+        { path: '/postdetail', element: <PostDetail/> },
+        { path: '/allpostdetail', element: <AllPostDetail/> },
+        { path: '/edit', element: <AuthRoute><EditPage/></AuthRoute> },
+        { path: '/allpost', element: <AllPost/>},
+        { path: '/mypost', element: <AuthRoute><MyPost/></AuthRoute> },
+        { path: '/mypage', element: <AuthRoute><MyPage/></AuthRoute> },
+        { path: '/register', element: <Register/> },
       ],
     },
     {
@@ -47,6 +51,7 @@ const HomePage = Loading(lazy(() => import('../pages/HomePage')));
 const Login = Loading(lazy(() => import('../pages/Login')));
 const EditPage = Loading(lazy(() => import('../pages/Edit')));
 const PostDetail = Loading(lazy(() => import('../pages/PostDetail')));
+const AllPost = Loading(lazy(() => import('../pages/AllPost')));
 const MyPost = Loading(lazy(() => import('../pages/MyPost')));
 const MyPage = Loading(lazy(() => import('../pages/MyPage')));
 const Register = Loading(lazy(() => import('../pages/Register')));

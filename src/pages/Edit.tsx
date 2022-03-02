@@ -1,24 +1,51 @@
-import { Container, Typography, TextField, Box, Button, Icon, useMediaQuery } from '@mui/material';
-import AutoAwesomeMotionIcon from '@mui/icons-material/AutoAwesomeMotion';
-import { useLocation } from 'react-router-dom';
+import { Container, Typography, TextField, Box, Button, useMediaQuery } from '@mui/material';
+import { useLocation, useNavigate } from 'react-router-dom';
 import EditIcon from '@mui/icons-material/Edit';
-
+import { bdayApi } from 'src/api/api';
+import { useState } from 'react';
 
 interface inputType {
+  nickname: string;
+  mng_no: string;
   name: string;
   title: string;
-  desc: string;
-  key: number;
+  content: string;
+  id: number;
 }
 
 const EditPage = () => {
+  const navigate = useNavigate();
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+  const [manageNo, setManageNo] = useState('');
+  const [nickName, setNickName] = useState('');
 
   const breakPoint = useMediaQuery('(max-width:550px)');
 
   const location = useLocation();
 
   const state = location.state as inputType;
-
+  const token = localStorage.getItem('token');
+  const editPost = async () => {
+    try {
+      const response = await bdayApi.patch(`/post/${state.id}`, 
+      { 
+        nickname: nickName || state.nickname,
+        mng_no: manageNo || state.mng_no,
+        title: title || state.title,
+        content: content || state.content,
+      },
+      {
+        headers: { Authorization: 'Bearer ' + token }
+      }
+      );
+      if(response.status === 200) {
+        navigate('/mypost');
+      }
+    } catch(e) {
+      console.log('error message',e);
+    }
+  }
   return (
     <Container 
       component="main" 
@@ -44,12 +71,26 @@ const EditPage = () => {
       
         <Box component="form" noValidate sx={{ mt: 1 }}>
           <Box>
+          <TextField
+              id="content"
+              fullWidth
+              required
+              label="Title"
+              onChange = {(e) => {setTitle(e.target.value)}}
+              defaultValue={state.title}
+              autoFocus
+              sx={{
+                mr: '5px',
+                mb: '15px',
+              }}
+            />
             <TextField
               id="content"
               fullWidth= { breakPoint ? true : false }
               required
-              label="Name"
-              value={state.name}
+              label="manage_no"
+              onChange = {(e) => {setManageNo(e.target.value)}}
+              defaultValue={state.mng_no}
               autoFocus
               sx={{
                 mr: '5px',
@@ -59,9 +100,11 @@ const EditPage = () => {
              <TextField
               id="content"
               required
+              label="Nickname"
               fullWidth= { breakPoint ? true : false }
-              label="Title"
-              value={state.title}
+              // value={state.title}
+              onChange={(e) => {setNickName(e.target.value)}}
+              defaultValue={state.nickname}
               sx={{
                 mb: '15px',
               }}
@@ -71,15 +114,17 @@ const EditPage = () => {
             id="outlined-multiline-static"
             required
             label="Content"
+            onChange={(e) => {setContent(e.target.value)}}
+            defaultValue={state.content}
             multiline
             fullWidth
             rows={6}
-            value={state.desc}
           />
           <Button
             component="button"
             fullWidth
             variant="contained"
+            onClick={editPost}
             color="inherit"
             sx={{ 
               mt: 3, 

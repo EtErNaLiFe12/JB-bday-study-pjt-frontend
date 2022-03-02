@@ -9,9 +9,8 @@ import ViewComfyIcon from '@mui/icons-material/ViewComfy';
 import Modal from '@mui/material/Modal';
 import AddIcon from '@mui/icons-material/Add';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { allUserApi, bdayApi, CreatePostApi } from 'src/api/api';
+import { allPostApi, allUserApi, bdayApi, CreatePostApi } from 'src/api/api';
 import { useNavigate } from 'react-router-dom';
-import SinglePostIt from 'src/components/SinglePostIt';
 
 interface postDataType {
 	id: string;
@@ -30,19 +29,19 @@ interface userDataType {
 	reg_dt: string;
 }
 
-const MyPost = () => {
+const AllPost = () => {
   const navigate = useNavigate();
   const breakPoint = useMediaQuery('(max-width:679px)');
   const breakPoint2 = useMediaQuery('(max-width:550px)');
   const breakPoint3 = useMediaQuery('(max-width:900px)');
 
   const [open, setOpen] = useState(false);
-  const [singlePostData, setSinglePostData] = useState<postDataType[]>([]);
+  const [postData, setPostData] = useState<postDataType[]>([]);
   const [userData, setUserData] = useState<userDataType[]>([]);
   const [crTitle, setCrTitle] = useState('');
   const [crContent, setCrContent] = useState('');
   const [crManage, setCrManage] = useState('');
-  const [crNickname, setCrNickName] = useState('');
+  const [crNickName, setCrNickName] = useState('');
   const [viewChange, setViewChange] = useState(false);
   const token = localStorage.getItem('token');
   const postId = localStorage.getItem('id');
@@ -56,12 +55,9 @@ const MyPost = () => {
 
   const postList = async () => {
     try {
-      const singleAllPosts = await bdayApi.get(`/post/${(postId)}`,
-      {
-        headers: { Authorization: 'Bearer ' + token }
-      });
-      setSinglePostData(singleAllPosts.data);
-      console.log('--',singlePostData);
+      const allPosts = await allPostApi.get('');
+      setPostData(allPosts.data);
+      // console.log('post--data',postData);
     } catch(e) {
       console.log('error message',e);
     }
@@ -71,6 +67,7 @@ const MyPost = () => {
     try {
       const allUsers = await allUserApi.get('');
       setUserData(allUsers.data);
+      // console.log('user--data', userData);
     } catch(e) {
       console.log('error message', e);
     }
@@ -89,7 +86,7 @@ const MyPost = () => {
     try {
       const response = await CreatePostApi.post('', 
       {
-        nickname: crNickname,
+        nickname: crNickName,
         mng_no: crManage,
         title: crTitle,
         content: crContent,
@@ -100,12 +97,14 @@ const MyPost = () => {
       });
       console.log(response.status);
       if(response.status === 201) {
-        location.reload();
+        navigate(-1);
       }
     } catch(e) {
       console.log('error message',e);
     }
   }
+
+ 
 
   return (
     <> 
@@ -144,7 +143,7 @@ const MyPost = () => {
                 color: 'rgba(255, 234, 167,1)',
                 lineHeight: '50px'
               }}>
-              My Sticky Posts
+              All Sticky Posts
             </Typography>
           </Box>
 
@@ -231,7 +230,7 @@ const MyPost = () => {
 
 
           {/* Post it */}
-            <SinglePostIt viewChg={viewChange}/>
+            <PostIt viewChg={viewChange}/>
           </Box>
         </Container>
 
@@ -261,7 +260,7 @@ const MyPost = () => {
               
                 <Box component="form" noValidate sx={{ mt: 1 }}>
                   <Box>
-                  <TextField
+                    <TextField
                       id="content"
                       required
                       label="Title"
@@ -286,7 +285,7 @@ const MyPost = () => {
                         mb: '5px',
                       }}
                     />
-                      <TextField
+                    <TextField
                       id="content"
                       required
                       label="Nickname"
@@ -330,4 +329,4 @@ const MyPost = () => {
   )
 }
 
-export default MyPost;
+export default AllPost;

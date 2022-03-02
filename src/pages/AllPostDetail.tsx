@@ -14,7 +14,7 @@ interface propsType {
   nickname: string;
 }
 
-const PostDetail = () => {
+const AllPostDetail = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const state = location.state as propsType;
@@ -135,5 +135,5 @@ const PostDetail = () => {
   )
 }
 
-export default PostDetail;
+export default AllPostDetail;
 

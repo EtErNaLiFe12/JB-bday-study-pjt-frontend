@@ -1,10 +1,13 @@
-import { Box, Icon, Typography } from "@mui/material";
+import { Box, Button, Icon } from "@mui/material";
 import { Link } from "react-router-dom";
 import { styled } from '@mui/material/styles';
 import LoginIcon from '@mui/icons-material/Login';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import ResponsiveDrawer from "./Drawer";
+import { useContext } from "react";
+import { AuthContext } from "src/context/provider/AuthProvider";
+import { Logout } from "@mui/icons-material";
 
 const LinkStyle = styled(Link)(() => ({
 	textDecoration: 'none',
@@ -30,7 +33,8 @@ const HeaderNavBar = () => {
 	// md, medium: 900px
 	// lg, large: 1200px
 	// xl, extra-large: 1536px
-
+  const { isAuth, logOut } = useContext(AuthContext);
+	
     return (
 			<>
 			{breakpoint ? 
@@ -57,15 +61,27 @@ const HeaderNavBar = () => {
 					<Box sx={{ display: 'flex' }}>
 						<Box sx={{ position: 'absolute', right: 40, lineHeight: '50px'}}>
 							{/* <LinkStyle to="/error404">Error-page test</LinkStyle> */}
-							<LinkStyle to="/post">Post</LinkStyle>
-							<LinkStyle to="/mypost">MyPost</LinkStyle>
-							<LinkStyle to="/mypage">MyPage</LinkStyle>
+							<LinkStyle to="/allpost">All Post</LinkStyle>
+							<LinkStyle to="/mypost">My Post</LinkStyle>
+							<LinkStyle to="/mypage">My Page</LinkStyle>
 						</Box>
-						<Box sx={{ position:'absolute', top: 16	, right: 0 }}>
+						{isAuth ? 
+						(
+							<Box sx={{ position:'absolute', top: 16	, right: 0 }}>
+								<LinkStyle to="/home">
+										<Button sx={{ position: 'absolute', right: 0, top: -5, color: '#fb5849'}} onClick={logOut}>
+											<Icon sx={{ width: 20, height: 20 }} component={Logout} />
+										</Button>
+								</LinkStyle>
+							</Box>
+						) : (
+							<Box sx={{ position:'absolute', top: 16	, right: 0 }}>
 								<LinkStyle to="/login">
 										<Icon sx={{ width: 20, height: 20 }} component={LoginIcon} />
 								</LinkStyle>
-						</Box>
+							</Box>
+						)}
+						
 					</Box>
 				</Box> 
 				)}
