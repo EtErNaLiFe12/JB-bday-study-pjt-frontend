@@ -4,8 +4,9 @@ import { AuthContext } from 'src/context/provider/AuthProvider';
 import { ChildrenProps } from '../context/types/types';
 
 const AuthRoute = ({ children } : ChildrenProps ) => {
-    const { isAuth } = useContext(AuthContext)
+
+    const AuthCheck = localStorage.getItem('token');
     
-    return isAuth ? <>{children}</> : <Navigate to="/login"/>
+    return AuthCheck ? <>{children}</> : <Navigate to="/login"/>
 }
 export default AuthRoute;

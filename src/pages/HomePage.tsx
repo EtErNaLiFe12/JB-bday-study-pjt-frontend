@@ -5,15 +5,12 @@ import { styled } from '@mui/material/styles';
 import { useContext } from 'react';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { bdayApi } from "src/api/api";
 import { AuthContext } from "src/context/provider/AuthProvider";
-
-
-
 
 const HomePage = () => {
 	const theme = useTheme();
   const breakPoint = useMediaQuery(theme.breakpoints.down('sm'));
+  const breakPoint2 = useMediaQuery(theme.breakpoints.down('md'));
   const { isAuth } = useContext(AuthContext);
 	const LinkStyle = styled(Link)(() => ({
 		textDecoration: 'none',
@@ -29,7 +26,6 @@ const HomePage = () => {
 				fontSize: '16px',
 		},
 	}))
-	
     return (
 			<>
 				<Box>
@@ -41,14 +37,23 @@ const HomePage = () => {
 							sx={{ width: '100%', height: '700px', mt: breakPoint ? 10 : 5, borderRadius: '20px' }}
 						/> */}
 						<Box
-							sx={{ width: '100%', height: '700px', bgcolor:'rgba(255, 234, 167,1.0)' , mt: breakPoint ? 10 : 5, borderRadius: '20px' }}
-						>
+							sx={{ 
+								width: '100%', 
+								height: '700px', 
+								// bgcolor:'rgba(255, 234, 167,1)',
+								bgcolor:'#fff',
+								border: 18,
+								borderColor: '#888',
+								boxSizing: "border-box", 
+								mt: breakPoint ? 10 : 5, 
+								borderRadius: '20px' 
+							}}>
 						</Box>
 						<Container>
-							<Typography variant="h4"
+							<Typography variant="h3"
 								sx={{
 									position: 'absolute',
-									top: 300,
+									top: 100,
 									left: '50%',
 									transform: 'translateX(-50%)',
 									// left: breakPoint ? 20 : 40,
@@ -59,11 +64,24 @@ const HomePage = () => {
 								}}>
 									Sticky Note Board
 							</Typography>
+							<Typography variant="h5"
+								sx={{
+									position: 'absolute',
+									top: breakPoint2 ? 290 : 190,
+									left: '50%',
+									transform: 'translateX(-50%)',
+									color: "#fff",
+									padding: '10px',
+									bgcolor: 'rgba(0,0,0,.5)',
+									borderRadius: '10px',
+								}}>
+									Create Your Own Post(Task memo)
+							</Typography>
 							<LinkStyle to= {isAuth ? '/mypost' : "/login"}>
 								<Typography variant="h6"
 									sx={{
 										position: 'absolute',
-										left: 40,
+										left: 60,
 										bottom: 60,
 										color: "#fff",
 										padding: '10px',
@@ -71,7 +89,7 @@ const HomePage = () => {
 										borderRadius: '10px',
 										fontWeight: '700'
 									}}>
-										{isAuth ? 'Post Start' : 'Start to login'}
+										{isAuth ? 'Create Your Post' : 'Start to login'}
 								</Typography>
 							</LinkStyle>
 						</Container>

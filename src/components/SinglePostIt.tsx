@@ -1,23 +1,12 @@
-import { Box, Typography, Container, Button } from "@mui/material";
+import { Box, Typography, Container, Button, styled } from "@mui/material";
 import { useNavigate } from 'react-router-dom';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { bdayApi, allPostApi } from 'src/api/api';
-import { AxiosResponse } from "axios";
+import axios, { AxiosResponse } from "axios";
 import { useEffect, useState } from "react";
 interface propsType {
   viewChg: boolean;
 }
-
-interface postDataType {
-	id: string;
-	title: string;
-	content: string;
-	crt_dt: Date;
-  mod_dt: Date;
-  mng_no: number;
-  username: string;
-}
-
 interface singleDataType {
   id: string;
   username: string;
@@ -37,34 +26,35 @@ interface singleDataType {
   ];
 }
 
-interface userDataType {
-	id: string;
-	username: string;
-	email: string;
-	reg_dt: string;
-}
+const GridBtnStyle = styled(Button)(() => ({
+  width: 200,
+  height: 170,
+  transition: '.5s',
+
+  "&:hover": {
+    width: 205,
+    height: 175,
+    backgroundColor: '#ffcccc',
+  },
+}))
+
+const ListBtnStyle = styled(Button)(() => ({
+  transition: '.5s',
+  
+  "&:hover": { 
+    backgroundColor: '#ffcccc',
+  },
+}))
 
 const SinglePostIt = (props:propsType) => {
 
   const { viewChg } = props;
-  const [postData, setPostData] = useState<postDataType[]>([]);
   const [singleData, setSingleData] = useState<singleDataType>();
   const breakPoint = useMediaQuery('(max-width:679px)');
   const breakPoint2 = useMediaQuery('(max-width:550px)');
   const token = localStorage.getItem('token');
   const postId = localStorage.getItem('id');
   const navigate = useNavigate();
-
-  
-  const postList = async () => {
-    try {
-      const response = await allPostApi.get('');
-      setPostData(response.data);
-      console.log('post--data',postData);
-    } catch(e) {
-      console.log('error message',e);
-    }
-  }
 
   const singleUser = async () => {
     try {
@@ -73,19 +63,18 @@ const SinglePostIt = (props:propsType) => {
           headers: { Authorization: 'Bearer ' + token }
         });
       setSingleData(sUser.data);
-      // console.log('single-user', singleData);
     } catch(e) {
       console.log('error message', e);
     }
   }
 
   useEffect(() => {
-    postList();
     singleUser();
 	}, []);
 
   const singlePosts = singleData?.posts;
-  console.log(singleData?.posts);
+  console.log('test',singlePosts);
+  
   return (
       <>
         <Container 
@@ -103,7 +92,7 @@ const SinglePostIt = (props:propsType) => {
              <Container maxWidth="md" >
               {singlePosts?.map((sp, idx) => (
                 <>
-                <Button
+                <ListBtnStyle
                   key={sp.id}
                   onClick={() => {
                     navigate('/postdetail', 
@@ -115,7 +104,8 @@ const SinglePostIt = (props:propsType) => {
                           content: sp.content,
                           id: sp.id,
                           mod_dt: sp.mod_dt,
-                      }});
+                        }
+                      });
                   }}
                   sx={{
                     display: 'flex',
@@ -138,7 +128,7 @@ const SinglePostIt = (props:propsType) => {
                     }}>
                       {sp.title}
                   </Typography>
-                </Button>
+                </ListBtnStyle>
                 </>
                ))}
               </Container>
@@ -146,10 +136,17 @@ const SinglePostIt = (props:propsType) => {
            
           ) : (
             // grid
-              <Container maxWidth="md" sx={{ width: '100%', display: 'flex', flexWrap: 'wrap', justifyContent: breakPoint ? 'center' : 'left'}}>
+              <Container 
+                maxWidth="md" 
+                sx={{ 
+                  width: '100%', 
+                  display: 'flex', 
+                  flexWrap: 'wrap', 
+                  justifyContent: breakPoint ? 'center' : 'left'
+                }}>
                   {singlePosts?.map((sp, idx) => (
                     <>
-                      <Button
+                      <GridBtnStyle
                         key={idx}
                         onClick={() => {
                           navigate('/postdetail',
@@ -160,14 +157,12 @@ const SinglePostIt = (props:propsType) => {
                                 title: sp.title,
                                 content: sp.content,
                                 id: sp.id,
-                              }});
+                              }
+                            });
                         }}
                         sx={{
-                          width: 200,
-                          height: 170,
-                          bgcolor:'rgba(255, 234, 167,1.0)',
-                          // bgcolor:'#ffcccc',
                           mt: 1,
+                          bgcolor:'rgba(255, 234, 167,1)',
                           ml: breakPoint2 ? 0 : '10px',
                         }}>
                         <Box>
@@ -176,7 +171,7 @@ const SinglePostIt = (props:propsType) => {
                             <Typography sx={{color: '#555', fontSize: 12, fontWeight: '700'}}>Manage.#{sp.mng_no}</Typography>
                           </Box>
                         </Box>
-                      </Button>
+                      </GridBtnStyle>
                       
                     </>
                   ))}

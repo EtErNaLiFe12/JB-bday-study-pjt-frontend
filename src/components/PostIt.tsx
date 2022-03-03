@@ -1,4 +1,4 @@
-import { Box, Typography, Container, Button } from "@mui/material";
+import { Box, Typography, Container, Button, styled } from "@mui/material";
 import { useNavigate } from 'react-router-dom';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { bdayApi, allPostApi } from 'src/api/api';
@@ -45,11 +45,30 @@ const PostIt = (props:propsType) => {
     }
   }
 
-  console.log('testttt',postData?.map((dt) => dt.nickname));
   useEffect(() => {
     postList();
-
 	}, [])
+
+  const GridBtnStyle = styled(Button)(() => ({
+    width: 200,
+    height: 170,
+    transition: '.5s',
+  
+    "&:hover": {
+      width: 205,
+      height: 175,
+      backgroundColor: '#ffcccc',
+    },
+  }))
+  
+  const ListBtnStyle = styled(Button)(() => ({
+    transition: '.5s',
+    
+    "&:hover": { 
+      backgroundColor: '#ffcccc',
+    },
+  }))
+
   return (
       <>
         <Container 
@@ -67,53 +86,59 @@ const PostIt = (props:propsType) => {
              <Container maxWidth="md" >
               {postData?.map((sp, idx) => (
                 <>
-                <Button
-                  key={sp.id}
-                  onClick={() => {
-                    navigate('/allpostdetail', 
-                      {state: 
-                        { 
-                          name : sp.nickname,
-                          mng_no: sp.mng_no,
-                          title: sp.title, 
-                          content: sp.content,
-                          id: sp.id,
-                          mod_dt: sp.mod_dt,
-                      }});
-                  }}
-                  sx={{
-                    display: 'flex',
-                    width: '100%',
-                    height: 60,
-                    bgcolor:'rgba(255, 234, 167,1)',
-                    mt: '10px',
-                    borderRadius: '10px'
-                  }}
-                >
-                  <Typography 
-                    variant="h6" 
-                    sx={{                       
-                      position: 'absolute',
-                      left: 20,   
-                      color: '#666', 
-                      lineHeight: '50px',
-                      fontWeight: '700',
-                      textTransform: 'uppercase'
-                    }}>
-                      {sp.title}
-                  </Typography>
-                </Button>
+                  <ListBtnStyle
+                    key={sp.id}
+                    onClick={() => {
+                      navigate('/allpostdetail', 
+                        {state: 
+                          { 
+                            name : sp.nickname,
+                            mng_no: sp.mng_no,
+                            title: sp.title, 
+                            content: sp.content,
+                            id: sp.id,
+                            mod_dt: sp.mod_dt,
+                        }});
+                    }}
+                    sx={{
+                      display: 'flex',
+                      width: '100%',
+                      height: 60,
+                      bgcolor:'rgba(255, 234, 167,1)',
+                      mt: '10px',
+                      borderRadius: '10px'
+                    }}
+                  >
+                    <Typography 
+                      variant="h6" 
+                      sx={{                       
+                        position: 'absolute',
+                        left: 20,   
+                        color: '#666', 
+                        lineHeight: '50px',
+                        fontWeight: '700',
+                        textTransform: 'uppercase'
+                      }}>
+                        {sp.title}
+                    </Typography>
+                  </ListBtnStyle>
                 </>
                ))}
               </Container>
             </>
-           
           ) : (
             // grid
-              <Container maxWidth="md" sx={{ width: '100%', display: 'flex', flexWrap: 'wrap', justifyContent: breakPoint ? 'center' : 'left'}}>
+              <Container 
+                maxWidth="md" 
+                sx={{ 
+                  width: '100%', 
+                  display: 'flex', 
+                  flexWrap: 'wrap', 
+                  justifyContent: breakPoint ? 'center' : 'left'
+                }}>
                   {postData?.map((sp, idx) => (
                     <>
-                      <Button
+                      <GridBtnStyle
                         key={idx}
                         onClick={() => {
                           navigate('/allpostdetail',
@@ -124,14 +149,11 @@ const PostIt = (props:propsType) => {
                                 title: sp.title,
                                 content: sp.content,
                                 id: sp.id,
-                              }});
-                          // navigate('/postdetail', {state: { data: MOCKDATA }});
+                              }
+                            });
                         }}
                         sx={{
-                          width: 200,
-                          height: 170,
                           bgcolor:'rgba(255, 234, 167,1.0)',
-                          // bgcolor:'#ffcccc',
                           mt: 1,
                           ml: breakPoint2 ? 0 : '10px',
                         }}>
@@ -141,7 +163,7 @@ const PostIt = (props:propsType) => {
                             <Typography sx={{color: '#555', fontSize: 12, fontWeight: '700'}}>Manage.#{sp.mng_no}</Typography>
                           </Box>
                         </Box>
-                      </Button>
+                      </GridBtnStyle>
                       
                     </>
                   ))}

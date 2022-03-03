@@ -1,10 +1,10 @@
-import { Container, Typography, TextField, Box, Button, Icon, useMediaQuery } from '@mui/material';
+import { Container, Typography, Box, Button, useMediaQuery } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
 import AccessibilityNewRoundedIcon from '@mui/icons-material/AccessibilityNewRounded';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { allPostApi, bdayApi } from 'src/api/api';
+import { bdayApi } from 'src/api/api';
 interface propsType {
   id: number;
   name: string;

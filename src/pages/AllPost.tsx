@@ -38,10 +38,10 @@ const AllPost = () => {
   const [open, setOpen] = useState(false);
   const [postData, setPostData] = useState<postDataType[]>([]);
   const [userData, setUserData] = useState<userDataType[]>([]);
-  const [crTitle, setCrTitle] = useState('');
-  const [crContent, setCrContent] = useState('');
-  const [crManage, setCrManage] = useState('');
-  const [crNickName, setCrNickName] = useState('');
+  // const [crTitle, setCrTitle] = useState('');
+  // const [crContent, setCrContent] = useState('');
+  // const [crManage, setCrManage] = useState('');
+  // const [crNickName, setCrNickName] = useState('');
   const [viewChange, setViewChange] = useState(false);
   const token = localStorage.getItem('token');
   const postId = localStorage.getItem('id');
@@ -80,29 +80,29 @@ const AllPost = () => {
 	}, []);
 
  
-  const createPost = async () => {
-    setOpen(false);
-    console.log(typeof(postId));
-    try {
-      const response = await CreatePostApi.post('', 
-      {
-        nickname: crNickName,
-        mng_no: crManage,
-        title: crTitle,
-        content: crContent,
-        postId: Number(postId),
-      },
-      {
-        headers: { Authorization: 'Bearer ' + token }
-      });
-      console.log(response.status);
-      if(response.status === 201) {
-        navigate(-1);
-      }
-    } catch(e) {
-      console.log('error message',e);
-    }
-  }
+  // const createPost = async () => {
+  //   setOpen(false);
+  //   console.log(typeof(postId));
+  //   try {
+  //     const response = await CreatePostApi.post('', 
+  //     {
+  //       nickname: crNickName,
+  //       mng_no: crManage,
+  //       title: crTitle,
+  //       content: crContent,
+  //       postId: Number(postId),
+  //     },
+  //     {
+  //       headers: { Authorization: 'Bearer ' + token }
+  //     });
+  //     console.log(response.status);
+  //     if(response.status === 201) {
+  //       location.reload()
+  //     }
+  //   } catch(e) {
+  //     console.log('error message',e);
+  //   }
+  // }
 
  
 
@@ -148,7 +148,7 @@ const AllPost = () => {
           </Box>
 
         {/* Add post */}
-        {breakPoint2 ?
+        {/* {breakPoint2 ?
         (
           <Box 
             sx={{ 
@@ -204,7 +204,7 @@ const AllPost = () => {
               </Button>
             </Box>
           </Box>
-        )}
+        )} */}
           
             
             {!breakPoint3 && 
@@ -235,7 +235,7 @@ const AllPost = () => {
         </Container>
 
         {/* 모달창 */}
-          <Modal open={open} onClose={handleClose}>
+          {/* <Modal open={open} onClose={handleClose}>
             <Container 
               component="main" 
               maxWidth="xs" 
@@ -324,7 +324,7 @@ const AllPost = () => {
                 </Box>
               </Box>
             </Container>
-          </Modal>
+          </Modal> */}
       </>
   )
 }

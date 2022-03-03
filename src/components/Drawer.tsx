@@ -44,12 +44,7 @@ export default function ResponsiveDrawer() {
     },
     {
       text: isAuth ? 'Logout':'Login',
-      onClick: () => {
-        {isAuth && logOut}; 
-        navigate(isAuth ? '/home' : '/login'); 
-        setMobileOpen(false); 
-        location.reload(); 
-      }
+      onClick: () => { logOut(); setMobileOpen(false); }
     },
   ]
 

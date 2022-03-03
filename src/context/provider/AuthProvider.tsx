@@ -14,19 +14,32 @@ const AuthProvider = ({ children }: ChildrenProps) => {
 
   const navigate = useNavigate();
   const [isAuth, setIsAuth] = useState<boolean>(false);
+  
+  const authCheck = async () => {
+    const authToken = localStorage.getItem('token')
+    if(authToken) {
+      setIsAuth(true)
+    } else {
+      setIsAuth(false)
+    }  
+  }
+  
+  useEffect(() => {
+    authCheck();
+  }, []);
 
   const logIn = (setToken: string, userId: string) => {
     setIsAuth(true);
     localStorage.setItem('token', setToken)
     localStorage.setItem('id', userId)
-
   };
 
   const logOut = () => {
     setIsAuth(false);
     localStorage.removeItem('token')
     localStorage.removeItem('id')
-    navigate("/home")
+    console.log('token, id 삭제')
+    navigate("/login")
   }
 
   return (

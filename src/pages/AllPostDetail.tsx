@@ -1,10 +1,10 @@
-import { Container, Typography, TextField, Box, Button, Icon, useMediaQuery } from '@mui/material';
+import { Container, Typography, Box, Button, useMediaQuery } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
 import AccessibilityNewRoundedIcon from '@mui/icons-material/AccessibilityNewRounded';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { allPostApi, bdayApi } from 'src/api/api';
+// import EditIcon from '@mui/icons-material/Edit';
+// import DeleteIcon from '@mui/icons-material/Delete';
+// import { bdayApi } from 'src/api/api';
 interface propsType {
   id: number;
   name: string;
@@ -19,21 +19,21 @@ const AllPostDetail = () => {
   const location = useLocation();
   const state = location.state as propsType;
   const breakPoint = useMediaQuery('(max-width:400px)');
-  const token = localStorage.getItem('token');
+  // const token = localStorage.getItem('token');
   
-  const deletePost = async () => {
-    try {
-      const response = await bdayApi.delete(`/post/${state.id}`, 
-      {
-        headers: { Authorization: 'Bearer ' + token }
-      });
-      if(response.status === 200) {
-        navigate('/mypost');
-      }
-    } catch(e) {
-      console.log('error message',e);
-    }
-  }
+  // const deletePost = async () => {
+  //   try {
+  //     const response = await bdayApi.delete(`/post/${state.id}`, 
+  //     {
+  //       headers: { Authorization: 'Bearer ' + token }
+  //     });
+  //     if(response.status === 200) {
+  //       navigate('/mypost');
+  //     }
+  //   } catch(e) {
+  //     console.log('error message',e);
+  //   }
+  // }
 
   return (
       <>
@@ -86,7 +86,7 @@ const AllPostDetail = () => {
                   
                 </Button>
               </Box>
-              <Box sx={{ mt: 2 }}>
+              {/* <Box sx={{ mt: 2 }}>
                 <Button
                   component="button"
                   variant="contained"
@@ -111,8 +111,8 @@ const AllPostDetail = () => {
                     <Typography sx={{ color: '#666', fontWeight: '700' }}>Edit</Typography>
                   )}
                 </Button>
-              </Box>
-              <Box sx={{ mt: 2 }}>
+              </Box> */}
+              {/* <Box sx={{ mt: 2 }}>
                 <Button
                   component="button"
                   variant="contained"
@@ -127,7 +127,7 @@ const AllPostDetail = () => {
                   )}
                   
                 </Button>
-              </Box>
+              </Box> */}
             </Box>
           </Box>
         </Container>

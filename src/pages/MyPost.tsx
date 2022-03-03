@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import PostIt from 'src/components/PostIt';
 
 import { Container, Typography, TextField, Box, Button, Icon } from '@mui/material';
@@ -12,23 +12,24 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { allUserApi, bdayApi, CreatePostApi } from 'src/api/api';
 import { useNavigate } from 'react-router-dom';
 import SinglePostIt from 'src/components/SinglePostIt';
+import { AuthContext } from 'src/context/provider/AuthProvider';
 
-interface postDataType {
-	id: string;
-	title: string;
-	content: string;
-	crt_dt: Date;
-  mod_dt: Date;
-  mng_no: string;
-  nickname: string;
-}
-interface userDataType {
-	id: string;
-	username: string;
-	email: string;
-	password: string;
-	reg_dt: string;
-}
+// interface postDataType {
+// 	id: string;
+// 	title: string;
+// 	content: string;
+// 	crt_dt: Date;
+//   mod_dt: Date;
+//   mng_no: string;
+//   nickname: string;
+// }
+// interface userDataType {
+// 	id: string;
+// 	username: string;
+// 	email: string;
+// 	password: string;
+// 	reg_dt: string;
+// }
 
 const MyPost = () => {
   const navigate = useNavigate();
@@ -37,8 +38,8 @@ const MyPost = () => {
   const breakPoint3 = useMediaQuery('(max-width:900px)');
 
   const [open, setOpen] = useState(false);
-  const [singlePostData, setSinglePostData] = useState<postDataType[]>([]);
-  const [userData, setUserData] = useState<userDataType[]>([]);
+  // const [singlePostData, setSinglePostData] = useState<postDataType[]>([]);
+  // const [userData, setUserData] = useState<userDataType[]>([]);
   const [crTitle, setCrTitle] = useState('');
   const [crContent, setCrContent] = useState('');
   const [crManage, setCrManage] = useState('');
@@ -46,6 +47,7 @@ const MyPost = () => {
   const [viewChange, setViewChange] = useState(false);
   const token = localStorage.getItem('token');
   const postId = localStorage.getItem('id');
+  const { isAuth } = useContext(AuthContext);
 
   const handleOpen = () => {
     setOpen(true);
@@ -54,33 +56,32 @@ const MyPost = () => {
     setOpen(false);
   };
 
-  const postList = async () => {
-    try {
-      const singleAllPosts = await bdayApi.get(`/post/${(postId)}`,
-      {
-        headers: { Authorization: 'Bearer ' + token }
-      });
-      setSinglePostData(singleAllPosts.data);
-      console.log('--',singlePostData);
-    } catch(e) {
-      console.log('error message',e);
-    }
-  }
+  // const postList = async () => {
+  //   try {
+  //     const singleAllPosts = await bdayApi.get(`/post/${(postId)}`,
+  //     {
+  //       headers: { Authorization: 'Bearer ' + token }
+  //     });
+  //     setSinglePostData(singleAllPosts.data);
+  //   } catch(e) {
+  //     console.log('error message',e);
+  //   }
+  // }
 
-  const userList = async () => {
-    try {
-      const allUsers = await allUserApi.get('');
-      setUserData(allUsers.data);
-    } catch(e) {
-      console.log('error message', e);
-    }
-  }
+  // const userList = async () => {
+  //   try {
+  //     const allUsers = await allUserApi.get('');
+  //     setUserData(allUsers.data);
+  //   } catch(e) {
+  //     console.log('error message', e);
+  //   }
+  // }
   
 
-  useEffect(() => {
-    postList();
-    userList();
-	}, []);
+  // useEffect(() => {
+  //   postList();
+  //   userList();
+	// }, []);
 
  
   const createPost = async () => {
@@ -100,7 +101,7 @@ const MyPost = () => {
       });
       console.log(response.status);
       if(response.status === 201) {
-        location.reload();
+        location.reload()
       }
     } catch(e) {
       console.log('error message',e);

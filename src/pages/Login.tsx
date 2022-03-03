@@ -28,10 +28,12 @@ const Login = () => {
             password: password,
           });
           if(resp.status === 201) {
+            // context api 에서 가져온 logIn에 parameter 넘김
             logIn(resp.data.accessToken, resp.data.userId)
             navigate('/home');
           }
         } catch(e) {
+          alert('Please enter a correct password')
           console.log('error message',e);
         }
     }

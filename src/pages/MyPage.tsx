@@ -1,14 +1,23 @@
-import { Box, Container, Typography } from "@mui/material";
+import { Box, Container, styled, Typography } from "@mui/material";
 // import AccessibilityNewRoundedIcon from '@mui/icons-material/AccessibilityNewRounded';
 import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople';
 import { bdayApi } from "src/api/api";
 import { useEffect, useState } from "react";
 
+const TypographyStyle = styled(Typography)(() => ({
+  color: '#555',
+  fontSize: '16px',
+  fontWeight: '700',
+
+  "&:hover": {
+      color: "#fb5849",
+      fontSize: '16px',
+  },
+}))
 interface userInfoType {
   email: string,
   username: string,
   reg_dt: number,
-  splice() : () => {},
 }
 
 const MyPage = () => {
@@ -24,7 +33,6 @@ const MyPage = () => {
           headers: { Authorization: 'Bearer ' + token }
         });
         setUserData(sUser.data);
-      // console.log('single-user', singleData);
     } catch(e) {
       console.log('error message', e);
     }
@@ -33,16 +41,18 @@ const MyPage = () => {
   useEffect(() => {
     userInfo();
   },[]);
-  console.log(userData?.email);
 
+  const date = String(userData?.reg_dt);
+  const dateTime = date.slice(0,10) 
+  
   return (
       <>
         <Container maxWidth="xs" sx={{ display: 'flex', justifyContent: 'center'}}>
-          <Box sx={{ mt: 10, color: '#000', bgcolor: 'rgba(255, 234, 167,1)', p:5, borderRadius: 3}}>
+          <Box sx={{ mt: 10, color: '#555', bgcolor: 'rgba(255, 234, 167,1)', p:5, borderRadius: 3}}>
             <EmojiPeopleIcon sx={{ width: 60, height: 60, display: 'flex', margin: 'auto', mb: 3}}/>
-            <Typography variant="h6" align="left">이름: {userData.username}</Typography>
-            <Typography variant="h6" align="left">이메일: {userData.email}</Typography>
-            <Typography variant="h6" align="left">가입 일자: {userData.reg_dt}</Typography>
+            <TypographyStyle align="left">이름: {userData?.username}</TypographyStyle>
+            <TypographyStyle align="left">이메일: {userData?.email}</TypographyStyle>
+            <TypographyStyle align="left">가입 일자: {dateTime}</TypographyStyle>
           </Box>
         </Container>
       </>
