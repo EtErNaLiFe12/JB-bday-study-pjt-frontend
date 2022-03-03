@@ -63,9 +63,34 @@ const PostDetail = () => {
                 }}/>
             </Box>
             <Box>
-              <Typography variant='h6' align='center' sx={{ mt: 2, mb: 2, fontWeight: '700', color: '#333' }}>#{state.mng_no}-{state.title}</Typography>
-              <Typography align='center' sx={{ mb: 15, color: '#333' }}>{state.content}</Typography>
-              <Typography align='center' sx={{ mt: 5, mb: 2, fontWeight: '700' }}>Created by {state.nickname}</Typography>
+              <Typography 
+                variant='h6' 
+                align='center' 
+                sx={{ 
+                  mt: 2, 
+                  mb: 2, 
+                  fontWeight: '700', 
+                  color: '#333' 
+                }}>
+                  #{state.mng_no}-{state.title}
+              </Typography>
+              <Typography 
+                align='center' 
+                sx={{ 
+                  mb: 15, 
+                  color: '#333' 
+                }}>
+                {state.content}
+              </Typography>
+              <Typography 
+                align='center' 
+                sx={{ 
+                  mt: 5, 
+                  mb: 2, 
+                  fontWeight: '700' 
+                }}>
+                  Created by {state.nickname}
+              </Typography>
             </Box>
             <Box sx={{ display: 'flex', justifyContent: 'center'}}>
               <Box sx={{ mt: 2 }}>

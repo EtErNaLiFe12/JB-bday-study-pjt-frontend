@@ -1,7 +1,6 @@
-import { useContext, useEffect, useState } from 'react';
-import PostIt from 'src/components/PostIt';
+import { useState } from 'react';
 
-import { Container, Typography, TextField, Box, Button, Icon } from '@mui/material';
+import { Container, Typography, TextField, Box, Button } from '@mui/material';
 import AutoAwesomeMotionIcon from '@mui/icons-material/AutoAwesomeMotion';
 import ViewListIcon from '@mui/icons-material/ViewList';
 import ViewComfyIcon from '@mui/icons-material/ViewComfy';
@@ -9,45 +8,23 @@ import ViewComfyIcon from '@mui/icons-material/ViewComfy';
 import Modal from '@mui/material/Modal';
 import AddIcon from '@mui/icons-material/Add';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { allUserApi, bdayApi, CreatePostApi } from 'src/api/api';
-import { useNavigate } from 'react-router-dom';
+import { CreatePostApi } from 'src/api/api';
 import SinglePostIt from 'src/components/SinglePostIt';
-import { AuthContext } from 'src/context/provider/AuthProvider';
-
-// interface postDataType {
-// 	id: string;
-// 	title: string;
-// 	content: string;
-// 	crt_dt: Date;
-//   mod_dt: Date;
-//   mng_no: string;
-//   nickname: string;
-// }
-// interface userDataType {
-// 	id: string;
-// 	username: string;
-// 	email: string;
-// 	password: string;
-// 	reg_dt: string;
-// }
 
 const MyPost = () => {
-  const navigate = useNavigate();
   const breakPoint = useMediaQuery('(max-width:679px)');
   const breakPoint2 = useMediaQuery('(max-width:550px)');
   const breakPoint3 = useMediaQuery('(max-width:900px)');
 
   const [open, setOpen] = useState(false);
-  // const [singlePostData, setSinglePostData] = useState<postDataType[]>([]);
-  // const [userData, setUserData] = useState<userDataType[]>([]);
   const [crTitle, setCrTitle] = useState('');
   const [crContent, setCrContent] = useState('');
   const [crManage, setCrManage] = useState('');
   const [crNickname, setCrNickName] = useState('');
   const [viewChange, setViewChange] = useState(false);
+  
   const token = localStorage.getItem('token');
   const postId = localStorage.getItem('id');
-  const { isAuth } = useContext(AuthContext);
 
   const handleOpen = () => {
     setOpen(true);
@@ -55,34 +32,6 @@ const MyPost = () => {
   const handleClose = () => {
     setOpen(false);
   };
-
-  // const postList = async () => {
-  //   try {
-  //     const singleAllPosts = await bdayApi.get(`/post/${(postId)}`,
-  //     {
-  //       headers: { Authorization: 'Bearer ' + token }
-  //     });
-  //     setSinglePostData(singleAllPosts.data);
-  //   } catch(e) {
-  //     console.log('error message',e);
-  //   }
-  // }
-
-  // const userList = async () => {
-  //   try {
-  //     const allUsers = await allUserApi.get('');
-  //     setUserData(allUsers.data);
-  //   } catch(e) {
-  //     console.log('error message', e);
-  //   }
-  // }
-  
-
-  // useEffect(() => {
-  //   postList();
-  //   userList();
-	// }, []);
-
  
   const createPost = async () => {
     setOpen(false);
