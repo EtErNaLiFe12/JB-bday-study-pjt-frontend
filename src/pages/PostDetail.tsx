@@ -19,7 +19,7 @@ const PostDetail = () => {
   const location = useLocation();
   const state = location.state as propsType;
   const breakPoint = useMediaQuery('(max-width:400px)');
-  const token = localStorage.getItem('token');
+  const token = sessionStorage.getItem('token');
   
   const deletePost = async () => {
     try {

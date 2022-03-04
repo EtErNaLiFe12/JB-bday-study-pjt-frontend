@@ -25,7 +25,7 @@ const EditPage = () => {
   const location = useLocation();
 
   const state = location.state as inputType;
-  const token = localStorage.getItem('token');
+  const token = sessionStorage.getItem('token');
   const editPost = async () => {
     try {
       const response = await bdayApi.patch(`/post/${state.id}`, 
@@ -91,7 +91,6 @@ const EditPage = () => {
               label="manage_no"
               onChange = {(e) => {setManageNo(e.target.value)}}
               defaultValue={state.mng_no}
-              autoFocus
               sx={{
                 mr: '5px',
                 mb: '15px',

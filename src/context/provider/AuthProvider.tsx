@@ -15,8 +15,8 @@ const AuthProvider = ({ children }: ChildrenProps) => {
   const navigate = useNavigate();
   const [isAuth, setIsAuth] = useState<boolean>(false);
   
-  const authCheck = async () => {
-    const authToken = localStorage.getItem('token')
+  const authCheck = () => {
+    const authToken = sessionStorage.getItem('token')
     if(authToken) {
       setIsAuth(true)
     } else {
@@ -30,14 +30,14 @@ const AuthProvider = ({ children }: ChildrenProps) => {
 
   const logIn = (setToken: string, userId: string) => {
     setIsAuth(true);
-    localStorage.setItem('token', setToken)
-    localStorage.setItem('id', userId)
+    sessionStorage.setItem('token', setToken)
+    sessionStorage.setItem('id', userId)
   };
 
   const logOut = () => {
     setIsAuth(false);
-    localStorage.removeItem('token')
-    localStorage.removeItem('id')
+    sessionStorage.removeItem('token')
+    sessionStorage.removeItem('id')
     console.log('token, id 삭제')
     navigate("/login")
   }

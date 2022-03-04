@@ -5,7 +5,7 @@ import { ChildrenProps } from '../context/types/types';
 
 const AuthRoute = ({ children } : ChildrenProps ) => {
 
-    const AuthCheck = localStorage.getItem('token');
+    const AuthCheck = sessionStorage.getItem('token');
     
     return AuthCheck ? <>{children}</> : <Navigate to="/login"/>
 }

@@ -23,8 +23,8 @@ interface userInfoType {
 const MyPage = () => {
 
   const [userData, setUserData] = useState<userInfoType>(Object);
-  const token = localStorage.getItem('token');
-  const postId = localStorage.getItem('id');
+  const token = sessionStorage.getItem('token');
+  const postId = sessionStorage.getItem('id');
 
   const userInfo = async () => {
     try {

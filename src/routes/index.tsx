@@ -39,8 +39,8 @@ const Router = () =>
       path: '*', // 404 page를 사용하기 위해 사용 / asterisk 는 어떠한 url 문자열이라도 매칭 가능
       element: <LayOut />,
       children: [
-        { path: '*', element: <Navigate to="/error404" replace /> },
         { path: 'error404', element: <Error404 /> },
+        { path: '*', element: <Navigate to="/error404" replace /> },
       ],
     },
   ]);

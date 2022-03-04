@@ -6,6 +6,7 @@ import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import { Link } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import { bdayApi } from 'src/api/api';
+import { emailValidation } from 'src/components/emailValidation';
 
 const Register = () => {
   const [open, setOpen] = useState(false);
@@ -18,11 +19,15 @@ const Register = () => {
     setOpen(false);
   };
 
+  const emailAccept = emailValidation(email);
+
   const regiUser = async () => {
-    if(!username || !email || !password || !cfPassword) {
-      return alert('Please enter an email or username or password(confirm password)');
-    } else if (password !== cfPassword) {
+    if(!username || !email || !password || !cfPassword) { // 입력창에 미입력시
+      return alert('Please enter a email or username or password(confirm password)');
+    } else if (password !== cfPassword) { //입력 password와 confirm password값 비교
       return alert('Password and confirm password are not same!');
+    } else if (!emailAccept) {
+      alert('You have entered invalid email address.');
     } else {
       try {
         const response = await bdayApi.post('/user/signup', 

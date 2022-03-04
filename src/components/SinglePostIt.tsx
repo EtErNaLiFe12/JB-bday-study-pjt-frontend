@@ -52,8 +52,8 @@ const SinglePostIt = (props:propsType) => {
   const [singleData, setSingleData] = useState<singleDataType>();
   const breakPoint = useMediaQuery('(max-width:679px)');
   const breakPoint2 = useMediaQuery('(max-width:550px)');
-  const token = localStorage.getItem('token');
-  const postId = localStorage.getItem('id');
+  const token = sessionStorage.getItem('token');
+  const postId = sessionStorage.getItem('id');
   const navigate = useNavigate();
 
   const singleUser = async () => {
@@ -73,7 +73,6 @@ const SinglePostIt = (props:propsType) => {
 	}, []);
 
   const singlePosts = singleData?.posts;
-  console.log('test',singlePosts);
   
   return (
       <>
@@ -147,7 +146,7 @@ const SinglePostIt = (props:propsType) => {
                   {singlePosts?.map((sp, idx) => (
                     <>
                       <GridBtnStyle
-                        key={idx}
+                        key={sp.id}
                         onClick={() => {
                           navigate('/postdetail',
                             {state:

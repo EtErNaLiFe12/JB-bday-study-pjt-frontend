@@ -17,12 +17,6 @@ interface postDataType {
   username: string;
   nickname: string;
 }
-interface userDataType {
-	id: string;
-	username: string;
-	email: string;
-	reg_dt: string;
-}
 
 const PostIt = (props:propsType) => {
 
@@ -30,8 +24,6 @@ const PostIt = (props:propsType) => {
   const [postData, setPostData] = useState<postDataType[]>([]);
   const breakPoint = useMediaQuery('(max-width:679px)');
   const breakPoint2 = useMediaQuery('(max-width:550px)');
-  const token = localStorage.getItem('token');
-  const postId = localStorage.getItem('id');
   const navigate = useNavigate();
 
   
@@ -39,7 +31,6 @@ const PostIt = (props:propsType) => {
     try {
       const response = await allPostApi.get('');
       setPostData(response.data);
-      console.log('post--data',postData);
     } catch(e) {
       console.log('error message',e);
     }

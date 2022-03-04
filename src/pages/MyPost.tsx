@@ -23,8 +23,8 @@ const MyPost = () => {
   const [crNickname, setCrNickName] = useState('');
   const [viewChange, setViewChange] = useState(false);
   
-  const token = localStorage.getItem('token');
-  const postId = localStorage.getItem('id');
+  const token = sessionStorage.getItem('token');
+  const postId = sessionStorage.getItem('id');
 
   const handleOpen = () => {
     setOpen(true);
@@ -35,7 +35,6 @@ const MyPost = () => {
  
   const createPost = async () => {
     setOpen(false);
-    console.log(typeof(postId));
     try {
       const response = await CreatePostApi.post('', 
       {
